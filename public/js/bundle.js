@@ -20529,7 +20529,8 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var completed = this.state.gameWon ? "Completed" : "In Progress";
+	      var turn = this.state.playerOnesTurn ? "Player One" : "Player Two";
+	      var completed = this.state.gameWon ? "Completed. Winner: " + this.state.winner : "In Progress. Go " + turn;
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'board' },

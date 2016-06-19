@@ -20453,6 +20453,7 @@
 	      squareArray: _this.createArray(noOfSquares),
 	      playerOnesTurn: true
 	    };
+	    _this.clickSquare = _this.clickSquare.bind(_this);
 	    return _this;
 	  }
 
@@ -20460,21 +20461,45 @@
 	    key: 'createArray',
 	    value: function createArray() {
 	      var initialArray = [];
-
 	      for (var i = 0; i < noOfSquares; i++) {
 	        initialArray.push({
-	          content: "-"
+	          content: "-",
+	          completed: false
 	        });
 	      }
-
 	      return initialArray;
 	    }
 	  }, {
 	    key: 'createSquares',
 	    value: function createSquares() {
+	      var _this2 = this;
+
 	      return this.state.squareArray.map(function (square, i) {
-	        return _react2.default.createElement(_Square2.default, { key: i, content: square.content });
+	        return _react2.default.createElement(_Square2.default, { key: i, content: square.content, click: _this2.clickSquare, id: i });
 	      });
+	    }
+	  }, {
+	    key: 'clickSquare',
+	    value: function clickSquare(number) {
+	      if (!this.state.squareArray[number].completed) {
+	        this.updateSquare(number);
+	      }
+	    }
+	  }, {
+	    key: 'updateSquare',
+	    value: function updateSquare(number) {
+	      var newArray = this.state.squareArray;
+	      newArray[number].content = this.getPlayerContent();
+	      newArray[number].completed = true;
+	      this.setState({
+	        squareArray: newArray,
+	        playerOnesTurn: !this.state.playerOnesTurn
+	      });
+	    }
+	  }, {
+	    key: 'getPlayerContent',
+	    value: function getPlayerContent() {
+	      return this.state.playerOnesTurn ? "X" : "O";
 	    }
 	  }, {
 	    key: 'render',
@@ -20528,9 +20553,13 @@
 	  _createClass(Square, [{
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'square' },
+	        { className: 'square', onClick: function onClick() {
+	            _this2.props.click(_this2.props.id);
+	          } },
 	        _react2.default.createElement(
 	          'p',
 	          null,

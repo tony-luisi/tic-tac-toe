@@ -20440,6 +20440,11 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var noOfSquares = 9;
+	var winnerConditions = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+	var tokenOne = "X",
+	    tokenTwo = "O";
+	var tokenOneWinner = tokenOne + tokenOne + tokenOne;
+	var tokenTwoWinner = tokenTwo + tokenTwo + tokenTwo;
 
 	var Board = function (_Component) {
 	  _inherits(Board, _Component);
@@ -20451,7 +20456,9 @@
 
 	    _this.state = {
 	      squareArray: _this.createArray(noOfSquares),
-	      playerOnesTurn: true
+	      playerOnesTurn: true,
+	      gameWon: false,
+	      winner: ""
 	    };
 	    _this.clickSquare = _this.clickSquare.bind(_this);
 	    return _this;
@@ -20495,19 +20502,43 @@
 	        squareArray: newArray,
 	        playerOnesTurn: !this.state.playerOnesTurn
 	      });
+	      this.checkWinner();
+	    }
+	  }, {
+	    key: 'checkWinner',
+	    value: function checkWinner() {
+	      var _this3 = this;
+
+	      var currentArray = this.state.squareArray;
+	      winnerConditions.map(function (set) {
+
+	        var currentCellContents = currentArray[set[0]].content + currentArray[set[1]].content + currentArray[set[2]].content;
+
+	        if (currentCellContents === tokenOneWinner) {
+	          _this3.setState({ gameWon: true, winner: "Player One" });
+	        } else if (currentCellContents === tokenTwoWinner) {
+	          _this3.setState({ gameWon: true, winner: "Player Two" });
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'getPlayerContent',
 	    value: function getPlayerContent() {
-	      return this.state.playerOnesTurn ? "X" : "O";
+	      return this.state.playerOnesTurn ? tokenOne : tokenTwo;
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var completed = this.state.gameWon ? "Completed" : "In Progress";
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'board' },
-	        this.createSquares()
+	        this.createSquares(),
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          completed
+	        )
 	      );
 	    }
 	  }]);

@@ -1,0 +1,14 @@
+body {
+  background-color: tomato;
+}
+
+.board {
+  display: flex;
+}
+
+.square {
+  width: 100px;
+  height: 100px;
+  border-width: thin;
+  border-style: solid;
+}

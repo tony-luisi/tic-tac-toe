@@ -20439,24 +20439,42 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var noOfSquares = 9;
+
 	var Board = function (_Component) {
 	  _inherits(Board, _Component);
 
-	  function Board() {
+	  function Board(props) {
 	    _classCallCheck(this, Board);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Board).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Board).call(this, props));
+
+	    _this.state = {
+	      squareArray: _this.createArray(noOfSquares),
+	      playerOnesTurn: true
+	    };
+	    return _this;
 	  }
 
 	  _createClass(Board, [{
+	    key: 'createArray',
+	    value: function createArray() {
+	      var initialArray = [];
+
+	      for (var i = 0; i < noOfSquares; i++) {
+	        initialArray.push({
+	          content: "-"
+	        });
+	      }
+
+	      return initialArray;
+	    }
+	  }, {
 	    key: 'createSquares',
 	    value: function createSquares() {
-	      var noOfSquares = 9;
-	      var squareArray = [];
-	      for (var i = 0; i < noOfSquares; i++) {
-	        squareArray.push(_react2.default.createElement(_Square2.default, { key: i }));
-	      }
-	      return squareArray;
+	      return this.state.squareArray.map(function (square, i) {
+	        return _react2.default.createElement(_Square2.default, { key: i, content: square.content });
+	      });
 	    }
 	  }, {
 	    key: 'render',
@@ -20464,11 +20482,6 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'board' },
-	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          'Board'
-	        ),
 	        this.createSquares()
 	      );
 	    }
@@ -20521,7 +20534,7 @@
 	        _react2.default.createElement(
 	          'p',
 	          null,
-	          'Square'
+	          this.props.content
 	        )
 	      );
 	    }

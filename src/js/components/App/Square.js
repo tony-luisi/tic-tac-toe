@@ -4,7 +4,7 @@ export default class Square extends Component {
   render() {
     return (
       <div className='square'>
-        <p>Square</p>
+        <p>{this.props.content}</p>
       </div>
     )
   }

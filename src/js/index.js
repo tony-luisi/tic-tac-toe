@@ -1,4 +1,5 @@
-import test from './newmodule'
+import React from 'react'
+import {render} from 'react-dom'
+import App from './components/App'
 
-console.log("hello world")
-test.test()
+render(<App />, document.getElementById('app'))
